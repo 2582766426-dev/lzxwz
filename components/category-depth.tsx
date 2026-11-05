@@ -1,0 +1,8 @@
+'use client';
+import {useEffect,useState,useRef} from 'react';
+export function CategoryDepth({items}:{items:string[][]}){
+ const [index,setIndex]=useState(0),[paused,setPaused]=useState(false);const start=useRef(0),wheelAt=useRef(0);
+ const step=(d:number)=>setIndex(i=>(i+d+items.length)%items.length);
+ useEffect(()=>{if(paused||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const timer=setInterval(()=>{if(!document.hidden)setIndex(i=>(i+1)%items.length);},6000);return()=>clearInterval(timer);},[paused,items.length]);
+ return <div className="depth-browser"><div className="depth-browser__stage" tabIndex={0} aria-label="作品纵深轮播" onMouseEnter={()=>setPaused(true)} onMouseLeave={()=>setPaused(false)} onKeyDown={e=>{if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1);}} onWheel={e=>{if(Date.now()-wheelAt.current<850)return;wheelAt.current=Date.now();step(e.deltaY>0?1:-1);}} onPointerDown={e=>{start.current=e.clientX;}} onPointerUp={e=>{if(Math.abs(e.clientX-start.current)>35)step(e.clientX<start.current?1:-1);}}>{items.map(([name,image],i)=>{const d=(i-index+items.length)%items.length;return <figure key={name} style={{transform:`translate(-50%,-50%) translateX(${d*90}px) translateZ(${-d*220}px) rotateY(${d?22:0}deg)`,filter:`brightness(${1-d*.16}) blur(${d*.7}px)`,zIndex:10-d}} onClick={()=>setIndex(i)}><img src={image} alt={name} draggable={false}/><figcaption>{name}</figcaption></figure>;})}</div><div className="depth-browser__controls"><button onClick={()=>step(-1)} aria-label="上一个项目">←</button><span>0{index+1} / 0{items.length}</span><button onClick={()=>step(1)} aria-label="下一个项目">→</button><button onClick={()=>setPaused(v=>!v)}>{paused?'播放':'暂停'}</button></div></div>;
+}

@@ -1,0 +1,56 @@
+.circular-carousel.portfolio-carousel {
+  position: relative;
+  width: min(100%, 1440px);
+  height: 610px;
+  margin-inline: auto;
+  overflow: hidden;
+  isolation: isolate;
+  touch-action: pan-y;
+  user-select: none;
+  cursor: grab;
+  outline: none;
+}
+
+.portfolio-carousel[data-dragging] { cursor: grabbing; }
+.portfolio-carousel:focus-visible { outline: 2px solid #0872f3; outline-offset: 4px; border-radius: 22px; }
+.portfolio-carousel .circular-carousel__view { position: absolute; inset: 0 0 92px; overflow: hidden; perspective-origin: 50% 50%; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.portfolio-carousel .circular-carousel__stage { position: absolute; inset: 0; transform-style: preserve-3d; pointer-events: none; }
+.portfolio-carousel .circular-carousel__camera,
+.portfolio-carousel .circular-carousel__ring { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; }
+.portfolio-carousel .circular-carousel__card { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-style: preserve-3d; pointer-events: auto; cursor: pointer; }
+.portfolio-carousel .circular-carousel__tile { position: absolute; transform-style: preserve-3d; backface-visibility: hidden; }
+.portfolio-carousel .circular-carousel__frame { position: relative; width: 100%; overflow: hidden; background: #a4c8ec; border: 0; box-shadow: 0 16px 48px rgba(0,50,144,.24); }
+.portfolio-carousel .circular-carousel__photo { position: absolute; display: block; max-width: none; object-fit: cover; pointer-events: none; }
+.portfolio-carousel .circular-carousel__photo--leaving { animation: portfolioPhotoSwap .7s both; }
+.portfolio-carousel .circular-carousel__inner { position: absolute; inset: 0; background: rgba(4,33,91,.2); }
+.portfolio-carousel .circular-carousel__shade { position: absolute; inset: 0; background: rgba(0,27,84,var(--cc-depth,0)); pointer-events: none; }
+.portfolio-carousel .circular-carousel__caption { position: absolute; left: 50%; bottom: 6px; display: flex; flex-direction: column; align-items: center; min-width: 280px; max-width: calc(100% - 32px); text-align: center; transform: translateX(-50%); color: #064ab7; }
+.portfolio-carousel .circular-carousel__title { display: grid; gap: 3px; font-size: clamp(1.1rem,1.7vw,1.45rem); font-weight: 800; line-height: 1.2; white-space: nowrap; animation: portfolioCaptionIn .45s cubic-bezier(.16,1,.3,1) both; }
+.portfolio-carousel .circular-carousel__subtitle { color: #4c76a9; font-size: .8rem; font-weight: 500; letter-spacing: .04em; }
+.portfolio-carousel .circular-carousel__count { display: flex; align-items: center; gap: 4px; margin-top: 9px; color: #4773aa; font-size: .72rem; font-weight: 700; letter-spacing: .1em; }
+.portfolio-carousel .circular-carousel__digits { display: inline-flex; }
+.portfolio-carousel .circular-carousel__digit { display: inline-block; height: 1em; overflow: hidden; }
+.portfolio-carousel .circular-carousel__reel { display: flex; flex-direction: column; line-height: 1em; transition: transform .45s cubic-bezier(.2,.8,.2,1); }
+.portfolio-carousel .circular-carousel__reel > span { display: block; height: 1em; }
+.portfolio-carousel .circular-carousel__slash { color: #8ab6e5; }
+.portfolio-carousel .circular-carousel__live { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@keyframes portfolioCaptionIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes portfolioPhotoSwap { from { opacity: 1; } to { opacity: 0; } }
+@media (max-width: 650px) {
+  .circular-carousel.portfolio-carousel { height: 360px; }
+  .portfolio-carousel .circular-carousel__view { bottom: 92px; mask-image: linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent); }
+  .portfolio-carousel .circular-carousel__caption { bottom: 4px; }
+  .portfolio-carousel .circular-carousel__title { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-carousel .circular-carousel__title,
+  .portfolio-carousel .circular-carousel__photo--leaving { animation: none; }
+}
+@media(min-width:801px){
+ .portfolio-carousel .circular-carousel__stage{top:24px;bottom:-24px}
+ .portfolio-carousel .circular-carousel__caption{bottom:48px}
+}
+@media(max-width:800px){
+ .portfolio-carousel .circular-carousel__stage{top:8px;bottom:-8px}
+ .portfolio-carousel .circular-carousel__caption{bottom:16px}
+}
